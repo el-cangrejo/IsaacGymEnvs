@@ -234,6 +234,7 @@ class SeedGrasp(VecTask):
         asset_options.vhacd_params = gymapi.VhacdParams()
         asset_options.vhacd_params.convex_hull_downsampling = 30
 
+        # object_asset = self.gym.load_asset(self.sim, asset_root, "urdf/cube.urdf", asset_options)
         object_asset = self.gym.load_asset(self.sim, asset_root, "urdf/ycb/011_banana/011_banana.urdf", asset_options)
         # object_asset = self.gym.load_asset(self.sim, asset_root, "urdf/ycb/YcbHammer/model.urdf", asset_options)
 
