@@ -1,0 +1,1106 @@
+<?xml version="1.0" ?>
+<robot name="GEN3_URDF_V12" version="1.0">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-0.000648 -0.000166 0.084487" rpy="0 0 0" />
+      <mass value="1.697" />
+      <inertia ixx="0.004622" ixy="9E-06" ixz="6E-05" iyy="0.004495" iyz="9E-06" izz="0.002079" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/base_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="shoulder_link">
+    <inertial>
+      <origin xyz="-2.3E-05 -0.010364 -0.07336" rpy="0 0 0" />
+      <mass value="1.3773" />
+      <inertia ixx="0.00457" ixy="1E-06" ixz="2E-06" iyy="0.004831" iyz="0.000448" izz="0.001409" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/shoulder_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator1" type="continuous">
+    <origin xyz="0 0 0.15643" rpy="3.1416 2.7629E-18 -4.9305E-36" />
+    <parent link="base_link" />
+    <child link="shoulder_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="39" velocity="0.8727" />
+  </joint>
+  <link name="HalfArm1_link">
+    <inertial>
+      <origin xyz="-4.4E-05 -0.09958 -0.013278" rpy="0 0 0" />
+      <mass value="1.1636" />
+      <inertia ixx="0.011088" ixy="5E-06" ixz="0" iyy="0.001072" iyz="-0.000691" izz="0.011255" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/half_arm_1_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/half_arm_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator2" type="revolute">
+    <origin xyz="0 0.005375 -0.12838" rpy="1.5708 2.1343E-17 -1.1102E-16" />
+    <parent link="shoulder_link" />
+    <child link="HalfArm1_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.41" upper="2.41" effort="39" velocity="0.8727" />
+  </joint>
+  <link name="half_arm_2_link">
+    <inertial>
+      <origin xyz="-4.4E-05 -0.006641 -0.117892" rpy="0 0 0" />
+      <mass value="1.1636" />
+      <inertia ixx="0.010932" ixy="0" ixz="-7E-06" iyy="0.011127" iyz="0.000606" izz="0.001043" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/half_arm_2_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/half_arm_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator3" type="continuous">
+    <origin xyz="0 -0.21038 -0.006375" rpy="-1.5708 1.2326E-32 -2.9122E-16" />
+    <parent link="HalfArm1_link" />
+    <child link="half_arm_2_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="39" velocity="0.8727" />
+  </joint>
+  <link name="forearm_link">
+    <inertial>
+      <origin xyz="-1.8E-05 -0.075478 -0.015006" rpy="0 0 0" />
+      <mass value="0.9302" />
+      <inertia ixx="0.008147" ixy="-1E-06" ixz="0" iyy="0.000631" iyz="-0.0005" izz="0.008316" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/forearm_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/forearm_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator4" type="revolute">
+    <origin xyz="0 0.006375 -0.21038" rpy="1.5708 -6.6954E-17 -1.6653E-16" />
+    <parent link="half_arm_2_link" />
+    <child link="forearm_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.66" upper="2.66" effort="39" velocity="0.8727" />
+  </joint>
+  <link name="spherical_wrist_1_link">
+    <inertial>
+      <origin xyz="1E-06 -0.009432 -0.063883" rpy="0 0 0" />
+      <mass value="0.6781" />
+      <inertia ixx="0.001596" ixy="0" ixz="0" iyy="0.001607" iyz="0.000256" izz="0.000399" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/spherical_wrist_1_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/spherical_wrist_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator5" type="continuous">
+    <origin xyz="0 -0.20843 -0.006375" rpy="-1.5708 2.2204E-16 -6.373E-17" />
+    <parent link="forearm_link" />
+    <child link="spherical_wrist_1_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="9" velocity="0.8727" />
+  </joint>
+  <link name="spherical_wrist_2_link">
+    <inertial>
+      <origin xyz="1E-06 -0.045483 -0.00965" rpy="0 0 0" />
+      <mass value="0.6781" />
+      <inertia ixx="0.001641" ixy="0" ixz="0" iyy="0.00041" iyz="-0.000278" izz="0.001641" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/spherical_wrist_2_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/spherical_wrist_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator6" type="revolute">
+    <origin xyz="0 0.00017505 -0.10593" rpy="1.5708 9.2076E-28 -8.2157E-15" />
+    <parent link="spherical_wrist_1_link" />
+    <child link="spherical_wrist_2_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.23" upper="2.23" effort="9" velocity="0.8727" />
+  </joint>
+  <link name="bracelet_with_vision_link">
+    <inertial>
+      <origin xyz="-0.000281 -0.011402 -0.029798" rpy="0 0 0" />
+      <mass value="0.5006" />
+      <inertia ixx="0.000587" ixy="3E-06" ixz="3E-06" iyy="0.000369" iyz="0.000118" izz="0.000609" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/bracelet_with_vision_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/bracelet_with_vision_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Actuator7" type="continuous">
+    <origin xyz="0 -0.10593 -0.00017505" rpy="-1.5708 -5.5511E-17 9.6396E-17" />
+    <parent link="spherical_wrist_2_link" />
+    <child link="bracelet_with_vision_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="9" velocity="0.8727" />
+  </joint>
+  <joint name="EndEffector" type="fixed">
+    <origin xyz="0 0 -0.0615250000000001" rpy="3.14159265358979 1.09937075168372E-32 3.14159265358979" />
+    <!-- <origin xyz="0 0 -0.0615250000000001" rpy="3.14159265358979 1.09937075168372E-32 0" /> -->
+    <parent link="bracelet_with_vision_link" />
+    <child link="root_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+  <link name="root_link"/>
+  <joint name="qbhand_base_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="root_link"/>
+    <child link="qbhand_base_link"/>
+  </joint>
+  <link name="qbhand_base_link">
+    <inertial>
+      <mass value="0.45"/>
+      <origin rpy="0 0 0" xyz="0.0030 -0.0449 0.0135"/>
+      <inertia ixx="0.00045" ixy="0.0" ixz="0.0" iyy="0.0006" iyz="0.0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/flange_iso_04.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/base"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/flange_iso_04.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_palm_fixed_joint" type="fixed">
+    <origin rpy="1.57 0 0" xyz="-0.0045 0.0145 0.144"/>
+    <parent link="qbhand_base_link"/>
+    <child link="qbhand_palm_link"/>
+  </joint>
+  <link name="qbhand_palm_link">
+    <inertial>
+      <mass value="0.45"/>
+      <origin rpy="0 0 0" xyz="0.0030 -0.0449 0.0135"/>
+      <inertia ixx="0.00045" ixy="0.0" ixz="0.0" iyy="0.0006" iyz="0.0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/palm_pinch_r.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/palm"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/palm_pinch_r.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_synergy_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="qbhand_palm_link"/>
+    <child link="qbhand_synergy_tendon_virtual_link"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="1.0" velocity="100"/>
+  </joint>
+  <link name="qbhand_synergy_tendon_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_thumb_knuckle_joint" type="revolute">
+    <origin rpy="-1.57 3.14 0.0" xyz="-0.044 -0.0465 -0.002"/>
+    <parent link="qbhand_palm_link"/>
+    <child link="qbhand_thumb_knuckle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="1.571" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="2.542"/>
+  </joint>
+  <link name="qbhand_thumb_knuckle_link">
+    <inertial>
+      <mass value="0.01"/>
+      <origin rpy="0 0 0" xyz="1.3071561e-02 -2.7357764e-03 6.4347823e-04"/>
+      <inertia ixx="3.5865978e-07" ixy="2.0944224e-07" ixz="-6.8657569e-08" iyy="1.3885564e-06" iyz="3.2170608e-08" izz="1.3571203e-06"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_thumb_r.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/knuckle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_thumb_r_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_thumb_proximal_joint" type="revolute">
+    <origin rpy="-1.1415 0.0 0.0" xyz="0.0255 -0.0038 -0.00012"/>
+    <parent link="qbhand_thumb_knuckle_link"/>
+    <child link="qbhand_thumb_proximal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_thumb_proximal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_thumb_proximal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_thumb_proximal_virtual_link"/>
+    <child link="qbhand_thumb_proximal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_thumb_proximal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_thumb_proximal_link">
+    <inertial>
+      <mass value="0.0063"/>
+      <origin rpy="0 0 0" xyz="4.7601567e-03 -1.3786947e-03 0.0"/>
+      <inertia ixx="1.8024201e-07" ixy="5.756798e-09" ixz="0.0" iyy="2.3516266e-07" iyz="0.0" izz="2.691504e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/proximal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_thumb_distal_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_thumb_proximal_link"/>
+    <child link="qbhand_thumb_distal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_thumb_distal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_thumb_distal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_thumb_distal_virtual_link"/>
+    <child link="qbhand_thumb_distal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_thumb_distal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_thumb_distal_link">
+    <inertial>
+      <mass value="0.009"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+      <inertia ixx="2.6586142e-07" ixy="1.2416847e-08" ixz="0.0" iyy="5.9935767e-07" iyz="0.0" izz="6.6781963e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/distal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_thtip_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_thumb_distal_link"/>
+    <child link="qbhand_thtip"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+  <link name="qbhand_thtip">
+    <inertial>
+      <mass value="0.00"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_index_knuckle_joint" type="revolute">
+    <origin rpy="0 0 1.57" xyz="-0.02 -0.007 0.014"/>
+    <parent link="qbhand_palm_link"/>
+    <child link="qbhand_index_knuckle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="-0.524" upper="0.524" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="-0.2"/>
+  </joint>
+  <link name="qbhand_index_knuckle_link">
+    <inertial>
+      <mass value="0.0095"/>
+      <origin rpy="0 0 0" xyz="4.2753603e-04  0.0 -1.4321738e-03"/>
+      <inertia ixx="6.4337303e-07" ixy="0.0" ixz="-3.9373913e-08" iyy="1.1253771e-06" iyz="0.0" izz="7.2336948e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/knuckle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_index_proximal_joint" type="revolute">
+    <origin rpy="1.57 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_index_knuckle_link"/>
+    <child link="qbhand_index_proximal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_index_proximal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_index_proximal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_index_proximal_virtual_link"/>
+    <child link="qbhand_index_proximal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_index_proximal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_index_proximal_link">
+    <inertial>
+      <mass value="0.0082"/>
+      <origin rpy="0 0 0" xyz="8.7707437e-03 -1.7863138e-03 0.0"/>
+      <inertia ixx="2.2722068e-07" ixy="1.1586053e-08" ixz="0.0" iyy="5.5947233e-07" iyz="0.0" izz="5.9562195e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_medium.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/proximal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_medium_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_index_middle_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.017 0 0"/>
+    <parent link="qbhand_index_proximal_link"/>
+    <child link="qbhand_index_middle_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_index_middle_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_index_middle_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_index_middle_virtual_link"/>
+    <child link="qbhand_index_middle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_index_middle_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_index_middle_link">
+    <inertial>
+      <mass value="0.0063"/>
+      <origin rpy="0 0 0" xyz="4.7601567e-03 -1.3786947e-03 0.0"/>
+      <inertia ixx="1.8024201e-07" ixy="5.756798e-09" ixz="0.0" iyy="2.3516266e-07" iyz="0.0" izz="2.691504e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/middle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_index_distal_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_index_middle_link"/>
+    <child link="qbhand_index_distal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_index_distal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_index_distal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_index_distal_virtual_link"/>
+    <child link="qbhand_index_distal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_index_distal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_index_distal_link">
+    <inertial>
+      <mass value="0.009"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+      <inertia ixx="2.6586142e-07" ixy="1.2416847e-08" ixz="0.0" iyy="5.9935767e-07" iyz="0.0" izz="6.6781963e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/distal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_fftip_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_index_distal_link"/>
+    <child link="qbhand_fftip"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+  <link name="qbhand_fftip">
+    <inertial>
+      <mass value="0.00"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_middle_knuckle_joint" type="revolute">
+    <origin rpy="0 0 1.57" xyz="0 0 0.014"/>
+    <parent link="qbhand_palm_link"/>
+    <child link="qbhand_middle_knuckle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="-0.524" upper="0.524" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.0"/>
+  </joint>
+  <link name="qbhand_middle_knuckle_link">
+    <inertial>
+      <mass value="0.0095"/>
+      <origin rpy="0 0 0" xyz="4.2753603e-04  0.0 -1.4321738e-03"/>
+      <inertia ixx="6.4337303e-07" ixy="0.0" ixz="-3.9373913e-08" iyy="1.1253771e-06" iyz="0.0" izz="7.2336948e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/knuckle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_middle_proximal_joint" type="revolute">
+    <origin rpy="1.57 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_middle_knuckle_link"/>
+    <child link="qbhand_middle_proximal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_middle_proximal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_middle_proximal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_middle_proximal_virtual_link"/>
+    <child link="qbhand_middle_proximal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_middle_proximal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_middle_proximal_link">
+    <inertial>
+      <mass value="0.0082"/>
+      <origin rpy="0 0 0" xyz="8.7707437e-03 -1.7863138e-03 0.0"/>
+      <inertia ixx="2.2722068e-07" ixy="1.1586053e-08" ixz="0.0" iyy="5.5947233e-07" iyz="0.0" izz="5.9562195e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_medium.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/proximal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_medium_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_middle_middle_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.017 0 0"/>
+    <parent link="qbhand_middle_proximal_link"/>
+    <child link="qbhand_middle_middle_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_middle_middle_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_middle_middle_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_middle_middle_virtual_link"/>
+    <child link="qbhand_middle_middle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_middle_middle_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_middle_middle_link">
+    <inertial>
+      <mass value="0.0063"/>
+      <origin rpy="0 0 0" xyz="4.7601567e-03 -1.3786947e-03 0.0"/>
+      <inertia ixx="1.8024201e-07" ixy="5.756798e-09" ixz="0.0" iyy="2.3516266e-07" iyz="0.0" izz="2.691504e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/middle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_middle_distal_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_middle_middle_link"/>
+    <child link="qbhand_middle_distal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_middle_distal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_middle_distal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_middle_distal_virtual_link"/>
+    <child link="qbhand_middle_distal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_middle_distal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_middle_distal_link">
+    <inertial>
+      <mass value="0.009"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+      <inertia ixx="2.6586142e-07" ixy="1.2416847e-08" ixz="0.0" iyy="5.9935767e-07" iyz="0.0" izz="6.6781963e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/distal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_ring_knuckle_joint" type="revolute">
+    <origin rpy="0 0 1.57" xyz="0.02 -0.007 0.014"/>
+    <parent link="qbhand_palm_link"/>
+    <child link="qbhand_ring_knuckle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="-0.524" upper="0.524" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.2"/>
+  </joint>
+  <link name="qbhand_ring_knuckle_link">
+    <inertial>
+      <mass value="0.0095"/>
+      <origin rpy="0 0 0" xyz="4.2753603e-04  0.0 -1.4321738e-03"/>
+      <inertia ixx="6.4337303e-07" ixy="0.0" ixz="-3.9373913e-08" iyy="1.1253771e-06" iyz="0.0" izz="7.2336948e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/knuckle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_ring_proximal_joint" type="revolute">
+    <origin rpy="1.57 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_ring_knuckle_link"/>
+    <child link="qbhand_ring_proximal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_ring_proximal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_ring_proximal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_ring_proximal_virtual_link"/>
+    <child link="qbhand_ring_proximal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_ring_proximal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_ring_proximal_link">
+    <inertial>
+      <mass value="0.0082"/>
+      <origin rpy="0 0 0" xyz="8.7707437e-03 -1.7863138e-03 0.0"/>
+      <inertia ixx="2.2722068e-07" ixy="1.1586053e-08" ixz="0.0" iyy="5.5947233e-07" iyz="0.0" izz="5.9562195e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_medium.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/proximal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_medium_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_ring_middle_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.017 0 0"/>
+    <parent link="qbhand_ring_proximal_link"/>
+    <child link="qbhand_ring_middle_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_ring_middle_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_ring_middle_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_ring_middle_virtual_link"/>
+    <child link="qbhand_ring_middle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_ring_middle_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_ring_middle_link">
+    <inertial>
+      <mass value="0.0063"/>
+      <origin rpy="0 0 0" xyz="4.7601567e-03 -1.3786947e-03 0.0"/>
+      <inertia ixx="1.8024201e-07" ixy="5.756798e-09" ixz="0.0" iyy="2.3516266e-07" iyz="0.0" izz="2.691504e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/middle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_ring_distal_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_ring_middle_link"/>
+    <child link="qbhand_ring_distal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_ring_distal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_ring_distal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_ring_distal_virtual_link"/>
+    <child link="qbhand_ring_distal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_ring_distal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_ring_distal_link">
+    <inertial>
+      <mass value="0.009"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+      <inertia ixx="2.6586142e-07" ixy="1.2416847e-08" ixz="0.0" iyy="5.9935767e-07" iyz="0.0" izz="6.6781963e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/distal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_little_knuckle_joint" type="revolute">
+    <origin rpy="0 0 1.57" xyz="0.04 -0.012 0.014"/>
+    <parent link="qbhand_palm_link"/>
+    <child link="qbhand_little_knuckle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="-0.524" upper="0.524" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.4"/>
+  </joint>
+  <link name="qbhand_little_knuckle_link">
+    <inertial>
+      <mass value="0.0095"/>
+      <origin rpy="0 0 0" xyz="4.2753603e-04  0.0 -1.4321738e-03"/>
+      <inertia ixx="6.4337303e-07" ixy="0.0" ixz="-3.9373913e-08" iyy="1.1253771e-06" iyz="0.0" izz="7.2336948e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/knuckle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_knuckle_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_little_proximal_joint" type="revolute">
+    <origin rpy="1.57 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_little_knuckle_link"/>
+    <child link="qbhand_little_proximal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_little_proximal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_little_proximal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_little_proximal_virtual_link"/>
+    <child link="qbhand_little_proximal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_little_proximal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_little_proximal_link">
+    <inertial>
+      <mass value="0.0063"/>
+      <origin rpy="0 0 0" xyz="4.7601567e-03 -1.3786947e-03 0.0"/>
+      <inertia ixx="1.8024201e-07" ixy="5.756798e-09" ixz="0.0" iyy="2.3516266e-07" iyz="0.0" izz="2.691504e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/proximal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_little_middle_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_little_proximal_link"/>
+    <child link="qbhand_little_middle_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_little_middle_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_little_middle_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_little_middle_virtual_link"/>
+    <child link="qbhand_little_middle_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_little_middle_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_little_middle_link">
+    <inertial>
+      <mass value="0.0063"/>
+      <origin rpy="0 0 0" xyz="4.7601567e-03 -1.3786947e-03 0.0"/>
+      <inertia ixx="1.8024201e-07" ixy="5.756798e-09" ixz="0.0" iyy="2.3516266e-07" iyz="0.0" izz="2.691504e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/middle"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_short_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_little_distal_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.009 0 0"/>
+    <parent link="qbhand_little_middle_link"/>
+    <child link="qbhand_little_distal_virtual_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_synergy_joint" multiplier="0.785"/>
+  </joint>
+  <link name="qbhand_little_distal_virtual_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1e-4"/>
+      <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+    </inertial>
+  </link>
+  <joint name="qbhand_little_distal_virtual_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.013 0 0"/>
+    <parent link="qbhand_little_distal_virtual_link"/>
+    <child link="qbhand_little_distal_link"/>
+    <axis xyz="0 0 -1"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="100" lower="0.0" upper="0.785" velocity="100"/>
+    <mimic joint="qbhand_little_distal_joint" multiplier="1.0"/>
+  </joint>
+  <link name="qbhand_little_distal_link">
+    <inertial>
+      <mass value="0.009"/>
+      <origin rpy="0 0 0" xyz="8.8025467e-03 -1.7219289e-03 0.0"/>
+      <inertia ixx="2.6586142e-07" ixy="1.2416847e-08" ixz="0.0" iyy="5.9935767e-07" iyz="0.0" izz="6.6781963e-07"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="qbhand/distal"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/ph_distal_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="qbhand_end_effector_fixed_joint" type="fixed">
+    <origin rpy="-1.57 0 0" xyz="-0.03 0.060 0.142"/>
+    <parent link="qbhand_base_link"/>
+    <child link="qbhand_end_effector_link"/>
+  </joint>
+  <link name="qbhand_end_effector_link"/>
+</robot>
