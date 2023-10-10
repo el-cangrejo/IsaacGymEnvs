@@ -31,7 +31,7 @@ env:
   actionsRegularizationRewardScale: 0.0
 
   armControlType: osc  # options are {osc, pos}
-  handControlType: binary # options are {binary, synergy, pos}
+  handControlType: pos # options are {binary, synergy, pos}
 
   # set to True if you use camera sensors in the environment
   enableCameraSensors: False
