@@ -82,9 +82,10 @@ class TaskGrasp(VecTask):
                 virtual_screen_capture=virtual_screen_capture,
                 force_render=force_render)
 
-        # Kinova + Seed defaults
+        # Default robot position
         robot_default_dof_pos = [0.19, 0.42, -1.39, 1.04, -1.00, 0.55, 0.00] + [0.0] * 17
-        # robot_default_dof_pos = [-0.5, 1.2, 0.09, 1.14, -1.7, -1.5, -0.6] + [0.0] * 17
+        # Kinova home position
+        robot_default_dof_pos = [0, 0.5, 0, 1.85, 0, -0.8, -1.6] + [0.0] * 17
         robot_default_dof_pos[20] = 1.57
         self.robot_default_dof_pos = to_torch(robot_default_dof_pos, device=self.device)
 
