@@ -4,6 +4,7 @@ import torch
 
 from isaacgym import gymtorch
 from isaacgym import gymapi
+from isaacgym import gymutil
 from isaacgym.torch_utils import *
 
 from isaacgymenvs.utils.torch_jit_utils import *
@@ -98,11 +99,23 @@ class TaskGrasp(VecTask):
         self.cmd_limit = to_torch([0.1, 0.1, 0.1, 0.5, 0.5, 0.5], device=self.device).unsqueeze(0) if \
         self.control_type == "osc" else self._robot_effort_limits[:7].unsqueeze(0)
 
+        self.vis_reward = False 
         # Reset all environments
         self.reset_idx(torch.arange(self.num_envs, device=self.device))
 
         # Refresh tensors
         self._refresh()
+
+        if self.vis_reward:
+            self.fig, self.ax = plt.subplots()
+
+            self.dist_rew_list = []
+            self.fintip_rew_list = []
+            self.lift_rew_list = []
+            self.height_rew_list = []
+
+        sphere_pose = gymapi.Transform()
+        self.sphere_geom = gymutil.WireframeSphereGeometry(0.03, 12, 12, sphere_pose, color=(1, 0, 0))
 
     def create_sim(self):
         self.sim_params.up_axis = gymapi.UP_AXIS_Z
@@ -350,6 +363,23 @@ class TaskGrasp(VecTask):
                 self.grasp_up_axis, self.down_axis, self.num_envs,
                 self.reward_settings, self.max_episode_length)
 
+        if self.vis_reward:
+            self.ax.cla()
+
+            self.dist_rew_list.append(reward_dict["Distance Reward"][0].cpu().detach())
+            self.fintip_rew_list.append(reward_dict["Fingertips Reward"][0].cpu().detach())
+            self.lift_rew_list.append(reward_dict["Lift Reward"][0].cpu().detach())
+            self.height_rew_list.append(reward_dict["Lift Height Reward"][0].cpu().detach())
+
+            self.ax.plot(self.dist_rew_list, c='r', label='Distance rew')
+            self.ax.plot(self.fintip_rew_list, c='b', label='Fingertip rew')
+            self.ax.plot(self.lift_rew_list, c='g', label='Lift rew')
+            self.ax.plot(self.height_rew_list, c='y', label='Height rew')
+
+            plt.legend()
+            plt.draw()
+            plt.pause(0.0001)
+
     def compute_observations(self):
         self._refresh()
         obs = ["object_pos", "object_quat", "object_pos_relative", "eef_pos", "eef_quat", "task"]
@@ -380,8 +410,11 @@ class TaskGrasp(VecTask):
         self._effort_control[env_ids, :] = torch.zeros_like(pos)
 
         # Randomly choose task intention
-        self._task_conditional[env_ids, :] = torch.nn.functional.one_hot(torch.randint(1, 3, (len(env_ids),)) % 2).to(self.device)
+        self._task_conditional[env_ids, :] = torch.nn.functional.one_hot(torch.randint(1, 3, (len(env_ids),)) % 2, num_classes=2).to(self.device)
+        # print (self._task_conditional)
+        # self._task_conditional = torch.nn.functional.one_hot((torch.zeros((len(env_ids),)).to(dtype=int)) % 2, num_classes=2).to(self.device)
         # self._task_conditional = torch.nn.functional.one_hot((torch.ones((len(env_ids),)).to(dtype=int)) % 2, num_classes=2).to(self.device)
+        # print (self._task_conditional)
 
         # Deploy updates
         multi_env_ids_int32 = self._global_indices[env_ids, 0].flatten()
@@ -406,6 +439,12 @@ class TaskGrasp(VecTask):
 
         self.progress_buf[env_ids] = 0
         self.reset_buf[env_ids] = 0
+
+        if self.vis_reward:
+            self.dist_rew_list = []
+            self.fintip_rew_list = []
+            self.lift_rew_list = []
+            self.height_rew_list = []
 
     def _reset_init_object_state(self, env_ids):
         # If env_ids is None, we reset all the envs
@@ -485,6 +524,19 @@ class TaskGrasp(VecTask):
         self.compute_observations()
         self.compute_reward(self.actions)
 
+        # if self.viewer:
+        #     self.gym.clear_lines(self.viewer)
+        #     for i in range(self.num_envs):
+        #         use_pos = self._use_link_state[i, :3]
+        #         sphere_pos = gymapi.Vec3(use_pos[0], use_pos[1], use_pos[2])
+        #         sphere_pose = gymapi.Transform(p=sphere_pos)
+        #         gymutil.draw_lines(self.sphere_geom, self.gym, self.viewer, self.envs[i], sphere_pose)
+
+        #         handoff_pos = self._handoff_link_state[i, :3]
+        #         sphere_pos = gymapi.Vec3(handoff_pos[0], handoff_pos[1], handoff_pos[2])
+        #         sphere_pose = gymapi.Transform(p=sphere_pos)
+        #         gymutil.draw_lines(self.sphere_geom, self.gym, self.viewer, self.envs[i], sphere_pose)
+
 #####################################################################
 ###=========================jit functions=========================###
 #####################################################################
@@ -548,7 +600,7 @@ def compute_robot_reward(
                    "Rotation Reward": reward_settings["r_rot_scale"] * rot_reward,
                    "Fingertips Reward": reward_settings["r_fintip_scale"] * fintip_reward,
                    "Lift Reward": reward_settings["r_lift_scale"] * lift_reward,
-                   "Lift Height Reward": reward_settings["r_lift_height_scale"] * lift_reward,
+                   "Lift Height Reward": reward_settings["r_lift_height_scale"] * lift_height,
                    "Action Regularization Reward": reward_settings["r_actions_reg_scale"] * action_penalty,}
 
     return rewards, reset_buf, reward_dict
