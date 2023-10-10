@@ -363,6 +363,10 @@ class TaskGrasp(VecTask):
                 self.grasp_up_axis, self.down_axis, self.num_envs,
                 self.reward_settings, self.max_episode_length)
 
+        if torch.sum(self.reset_buf) == self.num_envs:
+            objects_grasped = reward_dict["Objects grasped"]
+            print (f"Grasped: {torch.sum(objects_grasped)} / {objects_grasped.shape[0]}")
+
         if self.vis_reward:
             self.ax.cla()
 
@@ -595,13 +599,16 @@ def compute_robot_reward(
     # Compute resets
     reset_buf = torch.where((progress_buf >= max_episode_length - 1), torch.ones_like(reset_buf), reset_buf)
 
+    objects_grasped = object_height > 0.35
+
     # Return rewards in dict for debugging
     reward_dict = {"Distance Reward": reward_settings["r_dist_scale"] * dist_reward,
                    "Rotation Reward": reward_settings["r_rot_scale"] * rot_reward,
                    "Fingertips Reward": reward_settings["r_fintip_scale"] * fintip_reward,
                    "Lift Reward": reward_settings["r_lift_scale"] * lift_reward,
                    "Lift Height Reward": reward_settings["r_lift_height_scale"] * lift_height,
-                   "Action Regularization Reward": reward_settings["r_actions_reg_scale"] * action_penalty,}
+                   "Action Regularization Reward": reward_settings["r_actions_reg_scale"] * action_penalty,
+                   "Objects grasped": objects_grasped}
 
     return rewards, reset_buf, reward_dict
 
