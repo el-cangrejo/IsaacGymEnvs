@@ -145,7 +145,7 @@ class SoftGrasp(VecTask):
         upper = gymapi.Vec3(spacing, spacing, spacing)
 
         asset_root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../assets")
-        robot_asset_file = "urdf/qb_hand/urdf/arm_qbhand.urdf"
+        robot_asset_file = "urdf/qb_hand/urdf/arm_qbhand_tips.urdf"
 
         # load robot asset
         asset_options = gymapi.AssetOptions()
@@ -290,10 +290,12 @@ class SoftGrasp(VecTask):
                                                                "qbhand_end_effector_link"),
             "fftip": self.gym.find_actor_rigid_body_handle(env_ptr,
                                                            robot_handle,
-                                                           "qbhand_index_distal_link"),
+                                                           "qbhand_fftip"),
+                                                           # "qbhand_index_distal_link"),
             "thtip": self.gym.find_actor_rigid_body_handle(env_ptr,
                                                            robot_handle,
-                                                           "qbhand_thumb_distal_link"),
+                                                           "qbhand_thtip"),
+                                                           # "qbhand_thumb_distal_link"),
             "object_body_handle": self.gym.find_actor_rigid_body_handle(env_ptr,
                                                                         self._object_id,
                                                                         "fresco"),
