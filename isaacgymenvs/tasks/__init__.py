@@ -49,6 +49,7 @@ from .trifinger import Trifinger
 from .seed_grasp import SeedGrasp
 from .task_grasp import TaskGrasp
 from .qbhand_grasp import SoftGrasp
+from .repair_task import RepairTask
 
 # Mappings from strings to environments
 isaacgym_task_map = {
@@ -74,4 +75,5 @@ isaacgym_task_map = {
     "SeedGrasp": SeedGrasp,
     "TaskGrasp": TaskGrasp,
     "SoftGrasp": SoftGrasp,
+    "RepairTask": RepairTask,
 }
