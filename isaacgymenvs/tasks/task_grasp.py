@@ -18,6 +18,9 @@ class TaskGrasp(VecTask):
 
         self.max_episode_length = self.cfg["env"]["episodeLength"]
 
+        self.randomize = self.cfg["task"]["randomize"]
+        self.randomization_params = self.cfg["task"]["randomization_params"]
+
         self.action_scale = self.cfg["env"]["actionScale"]
         self.start_position_noise = self.cfg["env"]["startPositionNoise"]
         self.start_rotation_noise = self.cfg["env"]["startRotationNoise"]
@@ -100,7 +103,7 @@ class TaskGrasp(VecTask):
         self.cmd_limit = to_torch([0.1, 0.1, 0.1, 0.5, 0.5, 0.5], device=self.device).unsqueeze(0) if \
         self.control_type == "osc" else self._robot_effort_limits[:7].unsqueeze(0)
 
-        self.vis_reward = False 
+        self.vis_reward = False
         # Reset all environments
         self.reset_idx(torch.arange(self.num_envs, device=self.device))
 
@@ -127,6 +130,10 @@ class TaskGrasp(VecTask):
             self.device_id, self.graphics_device_id, self.physics_engine, self.sim_params)
         self._create_ground_plane()
         self._create_envs(self.num_envs, self.cfg["env"]['envSpacing'], int(np.sqrt(self.num_envs)))
+
+        # If randomizing, apply once immediately on startup before the fist sim step
+        if self.randomize:
+            self.apply_randomizations(self.randomization_params)
 
     def _create_ground_plane(self):
         plane_params = gymapi.PlaneParams()
@@ -200,7 +207,7 @@ class TaskGrasp(VecTask):
 
         # Define start pose for table
         table_start_pose = gymapi.Transform()
-        table_start_pose.p = gymapi.Vec3(.7, 0., 0.25)
+        table_start_pose.p = gymapi.Vec3(.7, 0., 0.15)
         table_start_pose.r = gymapi.Quat(0.0, 0.0, 0.0, 1.0)
 
         ## Load object asset
@@ -392,13 +399,23 @@ class TaskGrasp(VecTask):
 
         maxs = {ob: torch.max(self.states[ob]).item() for ob in obs}
 
+        # print (maxs)
+        # print (self.obs_buf.shape)
+        # print (self.obs_buf)
         return self.obs_buf
 
     def reset_idx(self, env_ids):
         env_ids_int32 = env_ids.to(dtype=torch.int32)
 
-        pos = tensor_clamp(self.robot_default_dof_pos.unsqueeze(0),
-            self.robot_dof_lower_limits.unsqueeze(0), self.robot_dof_upper_limits)
+        if self.randomize:
+            self.apply_randomizations(self.randomization_params)
+
+        reset_noise = torch.rand((len(env_ids), 24), device=self.device)
+        pos = tensor_clamp(self.robot_default_dof_pos.unsqueeze(0) + 0.05 * reset_noise,
+                           self.robot_dof_lower_limits.unsqueeze(0),
+                           self.robot_dof_upper_limits)
+        # pos = pos.repeat(len(env_ids), 1)
+        # print (pos.shape)
         pos[:, 20] = 1.5
     
         # Reset object states by sampling random poses
@@ -506,6 +523,7 @@ class TaskGrasp(VecTask):
         # Split arm and gripper command
         u_arm, u_hand = self.actions[:, :-1], self.actions[:, -1:]
         
+        # print (self.actions)
         # Control arm (scale value first)
         u_arm = u_arm * self.cmd_limit / self.action_scale
         if self.control_type == "osc":
@@ -521,6 +539,7 @@ class TaskGrasp(VecTask):
 
     def post_physics_step(self):
         self.progress_buf += 1
+        self.randomize_buf += 1
 
         env_ids = self.reset_buf.nonzero(as_tuple=False).squeeze(-1)
         if len(env_ids) > 0:
@@ -595,7 +614,7 @@ def compute_robot_reward(
             + reward_settings["r_fintip_scale"] * fintip_reward \
             + reward_settings["r_lift_scale"] * lift_reward \
             + reward_settings["r_lift_height_scale"] * lift_height \
-            + reward_settings["r_actions_reg_scale"] * action_penalty
+            # + reward_settings["r_actions_reg_scale"] * action_penalty
 
     # Compute resets
     reset_buf = torch.where((progress_buf >= max_episode_length - 1), torch.ones_like(reset_buf), reset_buf)
