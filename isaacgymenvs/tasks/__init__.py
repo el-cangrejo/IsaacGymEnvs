@@ -47,7 +47,8 @@ from .shadow_hand import ShadowHand
 from .allegro_hand import AllegroHand
 from .trifinger import Trifinger
 from .seed_grasp import SeedGrasp
-from .task_grasp import TaskGrasp
+from .task_grasp_test import TaskGrasp
+from .task_grasp_multi_final import TaskGraspMulti
 from .qbhand_grasp import SoftGrasp
 from .repair_task import RepairTask
 
@@ -74,6 +75,7 @@ isaacgym_task_map = {
     "Trifinger": Trifinger,
     "SeedGrasp": SeedGrasp,
     "TaskGrasp": TaskGrasp,
+    "TaskGraspMulti": TaskGraspMulti,
     "SoftGrasp": SoftGrasp,
     "RepairTask": RepairTask,
 }
