@@ -405,6 +405,18 @@ class TaskGraspMulti(VecTask):
         self.latent_mean = torch.tensor([4.3204274, 5.898608]).to(self.device)
 
     def _update_states(self):
+        trg_obj_handoff_pos = torch.zeros((self.num_envs, 3)).to('cuda:0')
+        trg_obj_use_pos = torch.zeros((self.num_envs, 3)).to('cuda:0')
+        trg_obj_pos = torch.zeros((self.num_envs, 3)).to('cuda:0')
+        trg_obj_quat = torch.zeros((self.num_envs, 4)).to('cuda:0')
+        trg_obj = self._target_object
+
+        for i in range(3):
+            trg_obj_handoff_pos [trg_obj == i] = self._handoff_link_states[i][trg_obj == i, :3]
+            trg_obj_use_pos [trg_obj == i] = self._use_link_states[i][trg_obj == i, :3]
+            trg_obj_pos [trg_obj == i] =  self._object_states[i][trg_obj == i, :3]
+            trg_obj_quat [trg_obj == i] =  self._object_states[i][trg_obj == i, 3:7]
+
         self.states.update({
             # Robot
             "q": self._q[:, :7],
@@ -417,17 +429,23 @@ class TaskGraspMulti(VecTask):
             "task": self._task_conditional,
             "trgt_obj": self._target_object,
             "trgt_obj_oh": self._target_object_oh,
+            "trg_obj_quat" : trg_obj_quat,
+            "trg_obj_pos" : trg_obj_pos,
+            "trg_obj_handoff_pos" : trg_obj_handoff_pos,
+            "trg_obj_use_pos" : trg_obj_use_pos,
+            "trg_obj_pos_relative" : trg_obj_pos - self._eef_state[:, :3],
             })
-        for i in range(self.num_objects):
-            self.states.update({
-                "object_quat_"+str(i): self._object_states[i][:, 3:7],
-                "object_pos_"+str(i): self._object_states[i][:, :3],
-                "object_pos_relative_"+str(i): self._object_states[i][:, :3] - self._eef_state[:, :3],
-                "object_fftip_pos_relative_"+str(i): self._object_states[i][:, :3] - self._fftip_state[:, :3],
-                "object_thtip_pos_relative_"+str(i): self._object_states[i][:, :3] - self._thtip_state[:, :3],
-                "handoff_pos_"+str(i): self._handoff_link_states[i][:, :3],
-                "use_pos_"+str(i): self._use_link_states[i][:, :3],
-                })
+
+        # for i in range(self.num_objects):
+        #     self.states.update({
+        #         "object_quat_"+str(i): self._object_states[i][:, 3:7],
+        #         "object_pos_"+str(i): self._object_states[i][:, :3],
+        #         "object_pos_relative_"+str(i): self._object_states[i][:, :3] - self._eef_state[:, :3],
+        #         "object_fftip_pos_relative_"+str(i): self._object_states[i][:, :3] - self._fftip_state[:, :3],
+        #         "object_thtip_pos_relative_"+str(i): self._object_states[i][:, :3] - self._thtip_state[:, :3],
+        #         "handoff_pos_"+str(i): self._handoff_link_states[i][:, :3],
+        #         "use_pos_"+str(i): self._use_link_states[i][:, :3],
+        #         })
 
     def _refresh(self):
         self.gym.refresh_actor_root_state_tensor(self.sim)
@@ -470,11 +488,17 @@ class TaskGraspMulti(VecTask):
     def compute_observations(self):
         self._refresh()
         # obs = ["object_pos", "object_quat", "object_pos_relative", "eef_pos", "eef_quat", "task"]
-        obs = ["eef_pos", "eef_quat", "task", "trgt_obj_oh"]
-        for i in range(self.num_objects):
-            obs.append("object_pos_"+str(i))
-            obs.append("object_quat_"+str(i))
-            obs.append("object_pos_relative_"+str(i))
+        obs = ["eef_pos", 
+               "eef_quat", 
+               "task", 
+               "trgt_obj_oh", 
+               "trg_obj_pos",
+               "trg_obj_quat", 
+               "trg_obj_pos_relative"]
+        # for i in range(self.num_objects):
+        #     obs.append("object_pos_"+str(i))
+        #     obs.append("object_quat_"+str(i))
+        #     obs.append("object_pos_relative_"+str(i))
 
         self.obs_buf = torch.cat([self.states[ob] for ob in obs], dim=-1)
 
@@ -706,16 +730,19 @@ def compute_robot_reward(
 ):
     # type: (Tensor, Tensor, Tensor, Dict[str, Tensor], Tensor, Tensor, int, Dict[str, float], float) -> Tuple[Tensor, Tensor, Dict[str, Tensor]]
 
-    trg_obj_handoff_pos = torch.zeros((num_envs, 3)).to('cuda:0')
-    trg_obj_use_pos = torch.zeros((num_envs, 3)).to('cuda:0')
-    trg_obj_pos = torch.zeros((num_envs, 3)).to('cuda:0')
+    trg_obj_handoff_pos = states["trg_obj_handoff_pos"]
+    trg_obj_use_pos = states["trg_obj_use_pos"]
+    trg_obj_pos = states["trg_obj_pos"]
+    # trg_obj_handoff_pos = torch.zeros((num_envs, 3)).to('cuda:0')
+    # trg_obj_use_pos = torch.zeros((num_envs, 3)).to('cuda:0')
+    # trg_obj_pos = torch.zeros((num_envs, 3)).to('cuda:0')
     # Target object
     # trg_obj = states['trgt_obj'].unsqueeze(1)
-    trg_obj = states['trgt_obj']
-    for i in range(3):
-        trg_obj_handoff_pos [trg_obj == i] =  states["handoff_pos_"+str(i)][trg_obj == i]
-        trg_obj_use_pos [trg_obj == i] =  states["use_pos_"+str(i)][trg_obj == i]
-        trg_obj_pos [trg_obj == i] =  states["object_pos_"+str(i)][trg_obj == i]
+    # trg_obj = states['trgt_obj']
+    # for i in range(3):
+    #     trg_obj_handoff_pos [trg_obj == i] =  states["handoff_pos_"+str(i)][trg_obj == i]
+    #     trg_obj_use_pos [trg_obj == i] =  states["use_pos_"+str(i)][trg_obj == i]
+    #     trg_obj_pos [trg_obj == i] =  states["object_pos_"+str(i)][trg_obj == i]
         # trg_obj_handoff_pos = torch.where(trg_obj == i, states["handoff_pos_"+str(i)], 0.0)
         # trg_obj_use_pos = torch.where(trg_obj == i, states["use_pos_"+str(i)], 0.0)
         # trg_obj_pos = torch.where(trg_obj == i, states["object_pos_"+str(i)], 0.0)
