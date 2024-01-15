@@ -1,0 +1,52 @@
+<?xml version="0.0" ?>
+<robot name="model.urdf">
+  <link name="com">
+    <!-- <contact> -->
+    <!--   <friction_anchor/> -->
+    <!--   <lateral_friction value="1.0"/> -->
+    <!--   <rolling_friction value="0.0"/> -->
+    <!--   <contact_cfm value="0.0"/> -->
+    <!--   <contact_erp value="1.0"/> -->
+    <!-- </contact> -->
+    <inertial>
+       <origin rpy="0 0 0.0" xyz="0.02 -0.01 0.01"/>
+       <mass value=".035"/>
+       <inertia ixx="1e-3" ixy="0" ixz="0" iyy="1e-3" iyz="0" izz="1e-3"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="knife.obj" scale="1 1 1"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1. 1. 1. 1."/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="knife.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="com_use_joint" type="fixed">
+    <parent link="com"/>
+    <child link="use_p"/>
+    <origin rpy="0 0 0" xyz="0.0 -0.07 0.00"/>
+  </joint>
+  <link name="use_p">
+    <inertial>
+      <mass value="0.00"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+  </link>
+  <joint name="com_handoff_joint" type="fixed">
+    <parent link="com"/>
+    <child link="handoff_p"/>
+    <origin rpy="0 0 0" xyz="0.0 0.07 0.00"/>
+  </joint>
+  <link name="handoff_p">
+    <inertial>
+      <mass value="0.00"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+  </link>
+</robot>
