@@ -60,7 +60,7 @@ class TaskGraspMulti(VecTask):
         # dimensions
         # obs : 
         # self.cfg["env"]["numObservations"] = 31 if self.control_type == "osc" else 15
-        self.cfg["env"]["numObservations"] = 12 + 10 * self.num_objects
+        self.cfg["env"]["numObservations"] = 12 + 10 #* self.num_objects
         # actions : 
         # self.cfg["env"]["numActions"] = 7 if self.control_type == "osc" else 8
         num_actions = 6
