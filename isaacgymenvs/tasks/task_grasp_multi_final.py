@@ -512,6 +512,8 @@ class TaskGraspMulti(VecTask):
         d_use = torch.norm(self.states["eef_pos"] - self.states["use_pos"], dim=-1)
         d_eef = torch.where(self.states["task"][:, 1] == 1, d_handoff, d_use)
 
+        d_handoff = d_handoff[object_grasped == 1]
+        d_use = d_use[object_grasped == 1]
         # task_name = "use"
         # object_name = "hammer"
         # path = "distances/"
